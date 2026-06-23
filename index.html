@@ -190,45 +190,6 @@
             font-size: 0.95rem;
         }
 
-        /* Formulario de Comentarios */
-        .comment-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            max-width: 550px;
-            margin: 1.5rem auto 0 auto;
-        }
-
-        .comment-form input, .comment-form textarea {
-            background-color: #05070c;
-            border: 1px solid var(--border);
-            padding: 0.9rem;
-            color: var(--text-main);
-            border-radius: 4px;
-            font-size: 0.95rem;
-        }
-
-        .comment-form input:focus, .comment-form textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .comment-form button {
-            background-color: var(--accent);
-            color: var(--bg-main);
-            border: none;
-            padding: 0.9rem;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-
-        .comment-form button:hover {
-            background-color: var(--accent-hover);
-        }
-
         /* Footer */
         footer {
             text-align: center;
@@ -242,7 +203,6 @@
 </head>
 <body>
 
-    <!-- Menú de Navegación -->
     <header>
         <div class="nav-container">
             <a href="#" class="logo" onclick="navigate('home')">./bits<span>_&_neuronas</span></a>
@@ -250,15 +210,12 @@
                 <button id="nav-home" class="active" onclick="navigate('home')">Inicio</button>
                 <button id="nav-blog" onclick="navigate('blog')">Artículos</button>
                 <button id="nav-about" onclick="navigate('about')">Autor</button>
-                <button id="nav-contact" onclick="navigate('contact')">Contacto</button>
             </nav>
         </div>
     </header>
 
-    <!-- Contenedor Principal del Blog -->
     <main>
         
-        <!-- PESTAÑA: INICIO -->
         <section id="home" class="tab-content active">
             <div class="welcome-block">
                 <h1>Hola, bienvenido al blog.</h1>
@@ -272,7 +229,6 @@
             </div>
         </section>
 
-        <!-- PESTAÑA: ARTÍCULO (EL TEMA DE IA) -->
         <section id="blog" class="tab-content">
             <article class="article-content">
                 <h1>Más allá del Código: El impacto de la IA en la actualidad</h1>
@@ -281,7 +237,7 @@
                 </div>
 
                 <h2>Introducción</h2>
-                <p>Piensa en esto por un segundo: estás metido en tu editor de código resolviendo un problema de lógica y, de la nada, tu entorno de desarrollo te sugiere exactamente las tres líneas que te faltaban para solucionar el bug antes de que siquiera pienses en compilar. Lo que antes parecía pura ciencia ficción o magia negra, hoy es el día a día en nuestra carrera.</p>
+                <p>Piensa en esto por un segundo: estás metido en tu editor de código resolviendo un problemita de lógica y, de la nada, tu entorno de desarrollo te sugiere exactamente las tres líneas que te faltaban para solucionar el bug antes de que siquiera pienses en compilar. Lo que antes parecía pura ciencia ficción o magia negra, hoy es el día a día en nuestra carrera.</p>
                 <p>Si dejamos de lado el concepto genérico y aburrido que todo el mundo copia de internet, la Inteligencia Artificial no es una máquina que "piensa" como nosotros. Realmente es un sistema diseñado para tragar cantidades gigantescas de datos, descubrir patrones ocultos que un humano tardaría años en ver, y tomar decisiones lógicas basadas en pura matemática avanzada. Es, básicamente, llevar la optimización algorítmica a un nivel tan alto que simula nuestra capacidad de aprender y adaptarnos a problemas nuevos.</p>
 
                 <h2>Desarrollo</h2>
@@ -331,7 +287,6 @@
             </article>
         </section>
 
-        <!-- PESTAÑA: ACERCA DEL AUTOR -->
         <section id="about" class="tab-content">
             <h2>Acerca del Autor</h2>
             <div class="author-box">
@@ -345,4 +300,32 @@
             </div>
         </section>
 
+    </main>
+
+    <footer>
+        <p>_ Desarrollado por Diego Osorio para la evaluación del Profesor Daniel Perez.</p>
+        <p style="margin-top: 0.5rem; color: #4b5563;">&copy; 2026 - Bits & Neuronas</p>
+    </footer>
+
+    <script>
+        function navigate(tabId) {
+            // Esconder todas las pestañas
+            document.querySelectorAll('.tab-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Quitar estado activo a los botones
+            document.querySelectorAll('nav button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Mostrar la pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById('nav-' + tabId).classList.add('active');
+            
+            // Suavizar el scroll al inicio de la página
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
        
