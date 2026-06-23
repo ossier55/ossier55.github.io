@@ -345,45 +345,4 @@
             </div>
         </section>
 
-        <!-- PESTAÑA: CONTACTO / COMENTARIOS -->
-        <section id="contact" class="tab-content">
-            <h2>Contacto e Interacción</h2>
-            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">¿Quieres dejar una opinión sobre el artículo o tienes alguna duda de la materia? Usa el formulario de abajo.</p>
-            <form class="comment-form" onsubmit="event.preventDefault(); alert('Simulación: ¡Comentario enviado con éxito para revisión!');">
-                <input type="text" placeholder="Tu Nombre" required>
-                <input type="email" placeholder="Tu Correo Electrónico" required>
-                <textarea rows="5" placeholder="Escribe tu comentario o crítica constructiva aquí..." required></textarea>
-                <button type="submit">>_ Enviar Comentario</button>
-            </form>
-        </section>
-
-    </main>
-
-    <!-- Pie de Página -->
-    <footer>
-        <p>_ Desarrollado por Diego Osorio para la evaluación del Profesor Daniel Perez.</p>
-        <p style="margin-top: 0.5rem; color: #4b5563;">&copy; 2026 - Bits & Neuronas</p>
-    </footer>
-
-    <!-- Script de navegación limpia en JavaScript sin recargar página -->
-    <script>
-        function navigate(tabId) {
-            // Esconder todas las pestañas
-            document.querySelectorAll('.tab-content').forEach(section => {
-                section.classList.remove('active');
-            });
-            // Quitar estado activo a los botones
-            document.querySelectorAll('nav button').forEach(button => {
-                button.classList.remove('active');
-            });
-            
-            // Mostrar la pestaña seleccionada
-            document.getElementById(tabId).classList.add('active');
-            document.getElementById('nav-' + tabId).classList.add('active');
-            
-            // Suavizar el scroll al inicio de la página
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    </script>
-</body>
-</html>
+       
