@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bits & Neuronas | Blog de Diego Osorio</title>
+    <style>
+        /* Paleta de colores 100% Informática (Modo Oscuro Hacker/Terminal Limpio) */
+        :root {
+            --bg-main: #0b0f19;       
+            --bg-card: #111827;       
+            --accent: #10b981;       
+            --accent-hover: #34d399;  
+            --text-main: #f3f4f6;    
+            --text-muted: #9ca3af;    
+            --border: #1f2937;        
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace, sans-serif; /* Toque clásico de código pero moderno */
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+
+        /* Navbar */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--text-main);
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1rem;
+            margin-left: 1.2rem;
+            cursor: pointer;
+            padding: 0.4rem 0.6rem;
+            transition: all 0.3s ease;
+        }
+
+        nav button:hover, nav button.active {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        /* Contenedor Principal */
+        main {
+            max-width: 850px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+            min-height: 70vh;
+        }
+
+        /* Animación de pestañas */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: renderView 0.4s ease-out;
+        }
+
+        @keyframes renderView {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sección de Inicio / Hero */
+        .welcome-block {
+            padding: 2.5rem;
+            background-color: var(--bg-card);
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            margin-bottom: 2.5rem;
+        }
+
+        .welcome-block h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+        }
+
+        .welcome-block p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Tarjetas de artículos */
+        .preview-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: border-color 0.3s, transform 0.2s;
+        }
+
+        .preview-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.01);
+        }
+
+        .preview-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .metadata {
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Cuerpo del Artículo */
+        .article-content h1 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--text-main); }
+        .article-content h2 { font-size: 1.5rem; margin: 2rem 0 1rem 0; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; }
+        .article-content h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem 0; color: var(--text-main); }
+        .article-content p { margin-bottom: 1.2rem; text-align: justify; color: #e5e7eb; }
+        .article-content ul { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+        .article-content li { margin-bottom: 0.6rem; color: #e5e7eb; }
+
+        /* Consola de Texto / Diagrama */
+        .terminal-box {
+            background-color: #05070c;
+            padding: 1.2rem;
+            border: 1px dashed var(--accent);
+            font-family: monospace;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            color: #34d399;
+            font-size: 0.9rem;
+        }
+
+        /* Ficha del Autor (Humanizada) */
+        .author-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .author-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: #0b0f19;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+
+        .author-grid p {
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        /* Formulario de Comentarios */
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            max-width: 550px;
+            margin: 1.5rem auto 0 auto;
+        }
+
+        .comment-form input, .comment-form textarea {
+            background-color: #05070c;
+            border: 1px solid var(--border);
+            padding: 0.9rem;
+            color: var(--text-main);
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .comment-form input:focus, .comment-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .comment-form button {
+            background-color: var(--accent);
+            color: var(--bg-main);
+            border: none;
+            padding: 0.9rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .comment-form button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menú de Navegación -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="navigate('home')">./bits<span>_&_neuronas</span></a>
+            <nav>
+                <button id="nav-home" class="active" onclick="navigate('home')">Inicio</button>
+                <button id="nav-blog" onclick="navigate('blog')">Artículos</button>
+                <button id="nav-about" onclick="navigate('about')">Autor</button>
+                <button id="nav-contact" onclick="navigate('contact')">Contacto</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal del Blog -->
+    <main>
+        
+        <!-- PESTAÑA: INICIO -->
+        <section id="home" class="tab-content active">
+            <div class="welcome-block">
+                <h1>Hola, bienvenido al blog.</h1>
+                <p>Este espacio nació como una asignación académica para la universidad, pero el enfoque va más allá de cumplir con una nota. Aquí analizo de forma clara y directa cómo la Inteligencia Artificial está sacudiendo las bases de la informática y qué significa esto para nosotros que estamos de este lado del código.</p>
+            </div>
+            <h3 style="margin-bottom: 1.2rem; color: var(--accent);">[Última entrada cargada]</h3>
+            <div class="preview-card" onclick="navigate('blog')">
+                <h2>Más allá del Código: El impacto de la IA en la actualidad</h2>
+                <div class="meta">Por: Diego Osorio • Junio de 2026 • 6 min de lectura</div>
+                <p>¿Qué pasa cuando las herramientas de desarrollo empiezan a pensar por sí mismas? Un análisis real, de estudiante a estudiante, sobre la evolución de la IA, sus aplicaciones en redes, ciberseguridad y bases de datos, y los dilemas éticos que se nos vienen encima...</p>
+            </div>
+        </section>
+
+        <!-- PESTAÑA: ARTÍCULO (EL TEMA DE IA) -->
+        <section id="blog" class="tab-content">
+            <article class="article-content">
+                <h1>Más allá del Código: El impacto de la IA en la actualidad</h1>
+                <div class="metadata" style="border-bottom: 1px solid var(--border); padding-bottom: 0.6rem; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                    Autor: Diego Osorio | Fecha: Junio de 2026 | Profesor: Daniel Perez
+                </div>
+
+                <h2>Introducción</h2>
+                <p>Piensa en esto por un segundo: estás metido en tu editor de código resolviendo un problema de lógica y, de la nada, tu entorno de desarrollo te sugiere exactamente las tres líneas que te faltaban para solucionar el bug antes de que siquiera pienses en compilar. Lo que antes parecía pura ciencia ficción o magia negra, hoy es el día a día en nuestra carrera.</p>
+                <p>Si dejamos de lado el concepto genérico y aburrido que todo el mundo copia de internet, la Inteligencia Artificial no es una máquina que "piensa" como nosotros. Realmente es un sistema diseñado para tragar cantidades gigantescas de datos, descubrir patrones ocultos que un humano tardaría años en ver, y tomar decisiones lógicas basadas en pura matemática avanzada. Es, básicamente, llevar la optimización algorítmica a un nivel tan alto que simula nuestra capacidad de aprender y adaptarnos a problemas nuevos.</p>
+
+                <h2>Desarrollo</h2>
+                
+                <h3>Un poco de historia sin aburrir</h3>
+                <p>Esto no apareció de la noche a la mañana con ChatGPT. Todo empezó formalmente por allá en 1950 cuando Alan Turing se preguntó si una máquina podría llegar a pensar. El campo pasó por momentos difíciles, los famosos "inviernos de la IA", donde las teorías eran increíbles pero las computadoras de la época eran demasiado lentas para procesarlas. El cambio radical ocurrió en estos últimos años gracias a la potencia del hardware moderno y la nube. Dejamos atrás los sistemas viejos que dependían de reglas fijas escritas a mano y entramos de lleno en la era del Machine Learning y los modelos de lenguaje actuales.</p>
+
+                <div class="terminal-box">
+                    $ cat evolucion_ia.txt
+                    [1950] Sistemas basados en reglas fijas e instrucciones manuales.
+                    [1990] Auge del Machine Learning (el software aprende de los datos).
+                    [Actual] Deep Learning y Modelos Masivos de Lenguaje (LLMs interactivos).
+                </div>
+
+                <h3>La división básica: IA Débil vs. IA Fuerte</h3>
+                <p>Para no confundir los términos en informática, hay que entender dos categorías:</p>
+                <ul>
+                    <li><strong>IA Débil (o Estrecha):</strong> Es todo lo que existe hoy. Son sistemas programados para hacer una sola tarea extremadamente bien. El algoritmo que te recomienda videos, los asistentes de voz o los autocompletados de código entran aquí. Operan bajo límites muy claros.</li>
+                    <li><strong>IA Fuerte (o General):</strong> Esto es teoría. Sería una máquina con una conciencia real, capaz de aprender cualquier oficio o ciencia al mismo nivel (o mejor) que un ser humano. No existe todavía, sigue siendo terreno de investigación y debate.</li>
+                </ul>
+
+                <h3>¿Cómo se aplica la IA en nuestra área?</h3>
+                <p>Para los que estudiamos informática, la IA no es una app para pasar el rato, es una herramienta estructural:</p>
+                <ul>
+                    <li><strong>Desarrollo de Software:</strong> Funciona como un copiloto que escribe código repetitivo, genera pruebas automatizadas de inmediato y te ayuda a refactorizar estructuras complejas en segundos.</li>
+                    <li><strong>Gestión de Bases de Datos:</strong> Hoy existen motores de bases de datos que usan IA para analizar las consultas más pesadas, crear o eliminar índices por sí mismos en tiempo real y optimizar el rendimiento sin que un administrador tenga que intervenir de madrugada.</li>
+                    <li><strong>Análisis de Redes:</strong> El tráfico de datos se puede gestionar de forma predictiva. La IA detecta patrones de consumo, previene cuellos de botella y balancea la carga de los servidores de manera dinámica antes de que colapsen.</li>
+                    <li><strong>Ciberseguridad:</strong> Los antivirus tradicionales buscan "firmas" de virus conocidos. La IA va más allá: analiza el comportamiento del sistema. Si nota un proceso actuando de forma extraña en milisegundos, bloquea la amenaza de inmediato, frenando ataques nuevos que ni siquiera se han registrado en las bases de datos.</li>
+                </ul>
+
+                <h3>Herramientas y lenguajes</h3>
+                <p>El rey indiscutible de todo este movimiento es <strong>Python</strong>. No por ser el más rápido, sino por su sintaxis limpia y directa, y porque la comunidad de código abierto ha creado las mejores librerías del mundo como TensorFlow o PyTorch, permitiendo que cualquiera pueda entrenar o implementar modelos complejos sin reinventar la rueda.</p>
+
+                <h2>El impacto social y los dilemas reales</h2>
+                <p>La automatización masiva tiene dos caras. Por un lado, nos quita de encima el trabajo aburrido y mecánico, disparando la productividad a niveles históricos. Por el otro, está cambiando el mercado laboral técnico muy rápido y genera una dependencia tecnológica brutal.</p>
+                <p>Además, hay tres problemas éticos enormes que no podemos ignorar: los <strong>sesgos de los algoritmos</strong> (si entrenas una IA con datos que reflejan prejuicios humanos, la máquina los automatizará a gran escala), la <strong>privacidad</strong> (¿de dónde sale tanta información para entrenar estos modelos?) y el cambio en el rol del programador junior, que ya no puede competir siendo un simple copiador de código; ahora tiene que aprender a ser un buen auditor técnico.</p>
+
+                <h2>Conclusión y mi opinión personal</h2>
+                <p>Para mí, la Inteligencia Artificial no viene a dejarnos sin trabajo a los informáticos, viene a subir la barra. El profesional que solo sepa picar código de memoria sí la va a tener difícil, porque las máquinas ya hacen eso más rápido. Nuestro verdadero valor va a estar en saber diseñar la arquitectura, entender cómo integrar estos sistemas, asegurar los datos y supervisar que la lógica sea correcta. El reto en nuestra formación profesional es aprender a dominar estas tecnologías para construir soluciones que sigan siendo útiles, seguras y, sobre todo, humanas.</p>
+
+                <h2>Referencias Bibliográficas</h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">
+                    - Russell, S., & Norvig, P. (2022). <i>Inteligencia artificial: Un enfoque moderno</i> (4ª ed.). Pearson Educación.<br>
+                    - Turing, A. M. (1950). Computing machinery and intelligence. <i>Mind</i>, 59(236), 433-460.<br>
+                    - Joyanes Aguilar, L. (2019). <i>Inteligencia artificial y Computación en la nube</i>. Alfaomega.
+                </p>
+            </article>
+        </section>
+
+        <!-- PESTAÑA: ACERCA DEL AUTOR -->
+        <section id="about" class="tab-content">
+            <h2>Acerca del Autor</h2>
+            <div class="author-box">
+                <div class="author-grid">
+                    <div><strong>Estudiante:</strong> Diego Osorio</div>
+                    <div><strong>Cédula:</strong> 31.918.055</div>
+                    <div><strong>Profesor:</strong> Daniel Perez</div>
+                    <div><strong>Carrera:</strong> PNF en Informática</div>
+                </div>
+                <p>Este espacio digital fue desarrollado como una asignación práctica para la materia. El objetivo no es solo plasmar conceptos técnicos sacados de un libro, sino demostrar la comprensión real de las tecnologías que están cambiando nuestra carrera y analizar de manera crítica los desafíos éticos y profesionales a los que nos enfrentaremos al salir al campo laboral.</p>
+            </div>
+        </section>
+
+        <!-- PESTAÑA: CONTACTO / COMENTARIOS -->
+        <section id="contact" class="tab-content">
+            <h2>Contacto e Interacción</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">¿Quieres dejar una opinión sobre el artículo o tienes alguna duda de la materia? Usa el formulario de abajo.</p>
+            <form class="comment-form" onsubmit="event.preventDefault(); alert('Simulación: ¡Comentario enviado con éxito para revisión!');">
+                <input type="text" placeholder="Tu Nombre" required>
+                <input type="email" placeholder="Tu Correo Electrónico" required>
+                <textarea rows="5" placeholder="Escribe tu comentario o crítica constructiva aquí..." required></textarea>
+                <button type="submit">>_ Enviar Comentario</button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- Pie de Página -->
+    <footer>
+        <p>_ Desarrollado por Diego Osorio para la evaluación del Profesor Daniel Perez.</p>
+        <p style="margin-top: 0.5rem; color: #4b5563;">&copy; 2026 - Bits & Neuronas</p>
+    </footer>
+
+    <!-- Script de navegación limpia en JavaScript sin recargar página -->
+    <script>
+        function navigate(tabId) {
+            // Esconder todas las pestañas
+            document.querySelectorAll('.tab-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Quitar estado activo a los botones
+            document.querySelectorAll('nav button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Mostrar la pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById('nav-' + tabId).classList.add('active');
+            
+            // Suavizar el scroll al inicio de la página
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
